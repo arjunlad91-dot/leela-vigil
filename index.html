@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Leela Vigil Solutions — Smart Security · Mysuru</title>
+<meta name="description" content="Leela Vigil Solutions — Smart security & networking for homes, businesses and banks across Mysuru. CCTV, biometric, fire-safety, sensors and structured cabling." />
+<link rel="icon" href="logo.jpeg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+  --bg-deep: #05080f;
+  --bg-mid: #0a0f1c;
+  --bg-card: #0f1b2e;
+  --neon-green: #00ff9c;
+  --neon-cyan: #00cfff;
+  --text-muted: #94a3b8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg-deep);
+  color: #fff;
+  font-family: 'Manrope', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+  min-height: 100vh;
+}
+::selection { background: var(--neon-green); color: var(--bg-deep); }
+a { color: inherit; text-decoration: none; }
+.text-mono { font-family: 'JetBrains Mono', monospace; }
+.text-display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+.text-green { color: var(--neon-green); }
+.text-cyan { color: var(--neon-cyan); }
+.text-muted { color: var(--text-muted); }
+.bg-scanlines {
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.bg-radial-hero {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,255,156,.08), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(0,207,255,.08), transparent 60%),
+    radial-gradient(circle at top, #0f1b2e 0%, #05080f 70%);
+}
+.glow-green { box-shadow: 0 0 32px rgba(0,255,156,.25); }
+.glow-cyan  { box-shadow: 0 0 32px rgba(0,207,255,.25); }
+
+/* Header */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(5,8,15,.75);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.header-inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 20px; height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand img {
+  width: 40px; height: 40px; border-radius: 6px; object-fit: cover;
+  outline: 1px solid rgba(255,255,255,.1);
+}
+.brand-name {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px;
+}
+.brand-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .25em; text-transform: uppercase; color: rgba(0,207,255,.8);
+  margin-top: 2px;
+}
+.nav { display: none; gap: 4px; }
+.nav a {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  letter-spacing: .2em; text-transform: uppercase; color: #cbd5e1;
+  padding: 8px 16px; border-radius: 6px; transition: color .2s;
+  position: relative;
+}
+.nav a:hover { color: var(--neon-green); }
+.nav a:hover::after {
+  content: ""; position: absolute; left: 16px; right: 16px; bottom: 4px;
+  height: 1px; background: var(--neon-green);
+}
+@media (min-width: 800px) { .nav { display: flex; } }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 24px; border-radius: 8px; font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700;
+  cursor: pointer; border: 1px solid transparent; transition: all .25s;
+}
+.btn-primary {
+  background: var(--neon-green); color: var(--bg-deep);
+  box-shadow: 0 0 20px rgba(0,255,156,.4);
+}
+.btn-primary:hover { background: #fff; }
+.btn-ghost {
+  background: transparent; color: #fff; border-color: rgba(0,207,255,.4);
+}
+.btn-ghost:hover { background: rgba(0,207,255,.1); }
+.btn-back {
+  background: transparent; color: var(--text-muted); padding: 8px 0;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .25em;
+  text-transform: uppercase; transition: color .2s;
+}
+.btn-back:hover { color: var(--neon-green); }
+
+/* Section helpers */
+.section { padding: 96px 20px; }
+.container { max-width: 1280px; margin: 0 auto; }
+.label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .3em; text-transform: uppercase; color: var(--neon-cyan);
+}
+h1.display, h2.display, h3.display {
+  font-family: 'Space Grotesk', sans-serif; letter-spacing: -.02em;
+  margin: 0; line-height: 1.05;
+}
+h1.display { font-size: clamp(34px, 5vw, 76px); font-weight: 700; }
+h2.display { font-size: clamp(28px, 3.5vw, 52px); font-weight: 700; }
+h3.display { font-size: 22px; font-weight: 600; }
+
+/* Hero */
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 112px 20px 80px; position: relative; overflow: hidden; }
+.hero .scanlines { position: absolute; inset: 0; opacity: .6; pointer-events: none; }
+.hero .blob1, .hero .blob2 { position: absolute; border-radius: 9999px; filter: blur(80px); pointer-events: none; }
+.hero .blob1 { top: 25%; left: -200px; width: 420px; height: 420px; background: rgba(0,255,156,.1); }
+.hero .blob2 { bottom: 25%; right: -200px; width: 520px; height: 520px; background: rgba(0,207,255,.1); }
+.hero-grid {
+  position: relative; max-width: 1280px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center;
+}
+@media (min-width: 1000px) { .hero-grid { grid-template-columns: 7fr 5fr; } }
+.pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .3em; text-transform: uppercase; color: var(--neon-green);
+  border: 1px solid rgba(0,255,156,.3); border-radius: 999px;
+  padding: 6px 14px; background: rgba(0,255,156,.05);
+}
+.dot { width: 8px; height: 8px; border-radius: 999px; background: var(--neon-green); position: relative; }
+.dot::before { content: ""; position: absolute; inset: 0; border-radius: 999px; background: var(--neon-green); animation: ping 1.5s cubic-bezier(0,0,.2,1) infinite; }
+@keyframes ping { 75%, 100% { transform: scale(2.2); opacity: 0; } }
+.hero-sub { color: var(--text-muted); font-size: 17px; line-height: 1.7; max-width: 560px; margin: 24px 0 0; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 48px; max-width: 580px; }
+@media (min-width: 700px) { .stats { grid-template-columns: repeat(4,1fr); } }
+.stat {
+  border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 16px;
+  background: rgba(255,255,255,.02);
+}
+.stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: var(--neon-green); }
+.stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+
+/* Hero camera HUD */
+.cam-frame {
+  position: relative; aspect-ratio: 4/5; border-radius: 16px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.1);
+  box-shadow: 0 0 32px rgba(0,207,255,.25);
+}
+.cam-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cam-grad { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg-deep) 0%, transparent 60%); }
+.cam-hud-top, .cam-hud-bot {
+  position: absolute; left: 16px; right: 16px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .25em; text-transform: uppercase;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cam-hud-top { top: 16px; color: var(--neon-green); }
+.cam-hud-bot { bottom: 16px; color: rgba(255,255,255,.7); }
+.rec-dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; background: #ef4444; margin-right: 6px; animation: blink 1s infinite; vertical-align: middle; }
+@keyframes blink { 50% { opacity: .3; } }
+.bracket { position: absolute; width: 24px; height: 24px; border: 0 solid var(--neon-green); }
+.bracket.tl { top: 12px; left: 12px; border-top-width: 2px; border-left-width: 2px; }
+.bracket.tr { top: 12px; right: 12px; border-top-width: 2px; border-right-width: 2px; }
+.bracket.bl { bottom: 12px; left: 12px; border-bottom-width: 2px; border-left-width: 2px; }
+.bracket.br { bottom: 12px; right: 12px; border-bottom-width: 2px; border-right-width: 2px; }
+.scan-line {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+  animation: scanline 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes scanline { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+/* Marquee */
+.marquee { padding: 36px 0; border-top: 1px solid rgba(255,255,255,.05); border-bottom: 1px solid rgba(255,255,255,.05); background: #070b14; overflow: hidden; }
+.marquee-track {
+  display: inline-flex; white-space: nowrap;
+  animation: marquee 30s linear infinite;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: #64748b;
+}
+.marquee-track span { margin: 0 32px; display: inline-flex; align-items: center; gap: 12px; }
+.marquee-track i { width: 6px; height: 6px; border-radius: 999px; background: var(--neon-green); display: inline-block; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* About */
+.about-grid { display: grid; grid-template-columns: 1fr; gap: 48px; }
+@media (min-width: 1000px) { .about-grid { grid-template-columns: 5fr 7fr; } }
+.feature-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 600px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
+.feat-card {
+  position: relative; background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: 24px;
+  transition: all .25s;
+}
+.feat-card:hover { background: rgba(255,255,255,.05); border-color: rgba(0,255,156,.4); transform: translateY(-2px); }
+.feat-card i.fa { color: var(--neon-green); font-size: 22px; }
+.feat-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin: 16px 0 8px; }
+.feat-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin: 0; }
+
+/* Services bento */
+.svc-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 700px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .svc-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.svc-card {
+  position: relative; background: var(--bg-mid); border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px; overflow: hidden; transition: all .3s; cursor: pointer; display: block;
+}
+.svc-card:hover { border-color: rgba(0,255,156,.5); transform: translateY(-4px); }
+.svc-card .svc-img-wrap { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+.svc-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .7s; }
+.svc-card:hover img { transform: scale(1.05); }
+.svc-card .svc-grad { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg-mid) 0%, rgba(10,15,28,.4) 50%, transparent 100%); }
+.svc-card .svc-code { position: absolute; top: 16px; left: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--neon-green); }
+.svc-card .svc-icon { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 8px; background: rgba(5,8,15,.7); border: 1px solid rgba(255,255,255,.1); color: var(--neon-green); display: flex; align-items: center; justify-content: center; transition: all .25s; }
+.svc-card:hover .svc-icon { background: var(--neon-green); color: var(--bg-deep); }
+.svc-body { padding: 24px; }
+.svc-body h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; margin: 0; transition: color .2s; }
+.svc-card:hover .svc-body h3 { color: var(--neon-green); }
+.svc-body p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin: 8px 0 0; }
+.svc-more { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--neon-cyan); margin-top: 16px; }
+
+/* Contact */
+.contact-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+@media (min-width: 1000px) { .contact-grid { grid-template-columns: 5fr 7fr; } }
+.contact-card {
+  display: flex; gap: 16px; background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 16px;
+  transition: border-color .2s; align-items: flex-start;
+}
+.contact-card + .contact-card { margin-top: 16px; }
+.contact-card:hover { border-color: rgba(0,255,156,.4); }
+.contact-card .ico {
+  width: 40px; height: 40px; flex-shrink: 0; border-radius: 8px;
+  background: rgba(0,255,156,.1); border: 1px solid rgba(0,255,156,.3);
+  display: flex; align-items: center; justify-content: center; color: var(--neon-green);
+}
+.contact-card .body { font-size: 14px; color: #cbd5e1; line-height: 1.6; }
+.contact-card .body strong { color: #fff; }
+.contact-card .mini-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .25em; text-transform: uppercase;
+  color: var(--neon-cyan); margin-bottom: 4px;
+}
+
+/* Form */
+.form-card {
+  position: relative; background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 16px;
+  padding: 28px; backdrop-filter: blur(10px); overflow: hidden;
+}
+.form-row { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 600px) { .form-row { grid-template-columns: 1fr 1fr; } }
+.form-row.full { grid-template-columns: 1fr; }
+.field label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .25em; text-transform: uppercase; color: var(--neon-cyan);
+  margin-bottom: 8px;
+}
+.field input, .field textarea, .field select {
+  width: 100%; padding: 14px 16px; background: rgba(15,27,46,.7);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 10px;
+  color: #fff; font-family: 'Manrope', sans-serif; font-size: 14px;
+  outline: none; transition: all .2s;
+}
+.field input::placeholder, .field textarea::placeholder { color: #64748b; }
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 0 3px rgba(0,255,156,.12);
+}
+.form-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px; align-items: center; justify-content: space-between; }
+.form-help { font-size: 12px; color: #64748b; max-width: 380px; }
+.form-help b { color: var(--neon-green); font-weight: 600; }
+.toast {
+  position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-120%);
+  background: var(--bg-card); border: 1px solid rgba(0,255,156,.4); color: #fff;
+  padding: 14px 22px; border-radius: 10px; font-size: 14px;
+  z-index: 200; transition: transform .35s ease;
+  box-shadow: 0 8px 30px rgba(0,0,0,.5);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* Service detail */
+.detail-hero { padding: 112px 20px 24px; }
+.detail-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+@media (min-width: 1000px) { .detail-grid { grid-template-columns: 7fr 5fr; } }
+.detail-section { padding: 48px 20px; }
+.detail-cards { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 1000px) { .detail-cards { grid-template-columns: 7fr 5fr; } }
+.detail-box {
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px; padding: 28px;
+}
+.detail-box h2 { display: flex; align-items: center; gap: 12px; }
+.feature-list { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 0; margin: 18px 0 0; list-style: none; }
+@media (min-width: 600px) { .feature-list { grid-template-columns: 1fr 1fr; } }
+.feature-list li { display: flex; gap: 10px; font-size: 14px; color: #cbd5e1; line-height: 1.6; }
+.feature-list i.fa-check-circle { color: var(--neon-green); margin-top: 4px; }
+.usecase-list { padding: 0; margin: 18px 0 0; list-style: none; }
+.usecase-list li { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #cbd5e1; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,.05); margin-bottom: 12px; }
+.usecase-list li:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: 0; }
+.usecase-list .pip { width: 6px; height: 6px; border-radius: 999px; background: var(--neon-cyan); flex-shrink: 0; }
+
+/* Footer */
+.footer { background: var(--bg-deep); border-top: 1px solid rgba(255,255,255,.05); position: relative; margin-top: 48px; }
+.footer::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,255,156,.4), transparent); }
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: 40px; padding: 64px 20px; max-width: 1280px; margin: 0 auto; }
+@media (min-width: 800px) { .footer-grid { grid-template-columns: 4fr 3fr 5fr; } }
+.footer-col h5 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: var(--neon-cyan); margin: 0 0 16px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col li + li { margin-top: 8px; }
+.footer-col a { color: #cbd5e1; font-size: 14px; transition: color .2s; }
+.footer-col a:hover { color: var(--neon-green); }
+.footer-bot { border-top: 1px solid rgba(255,255,255,.05); padding: 20px; text-align: center; color: #64748b; font-size: 12px; }
+.footer-bot .online { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .25em; color: var(--neon-green); }
+
+/* WhatsApp float */
+.whatsapp {
+  position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
+  border-radius: 999px; background: #25D366; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; box-shadow: 0 8px 30px rgba(37,211,102,.45);
+  z-index: 90; transition: transform .25s;
+}
+.whatsapp:hover { transform: scale(1.1); }
+.whatsapp::before, .whatsapp::after {
+  content: ""; position: absolute; inset: 0; border-radius: 999px;
+  border: 1px solid rgba(0,255,156,.6); animation: radar-pulse 2.4s cubic-bezier(0,0,.2,1) infinite;
+}
+.whatsapp::after { animation-delay: 1.2s; }
+@keyframes radar-pulse { 0% { transform: scale(.6); opacity: .7; } 70% { transform: scale(1.4); opacity: 0; } 100% { transform: scale(1.4); opacity: 0; } }
+
+/* Animations */
+@keyframes fade-up { 0% { opacity: 0; transform: translateY(24px); } 100% { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fade-up .7s ease-out both; }
+
+/* Page show/hide */
+.page { display: none; }
+.page.active { display: block; }
+
+/* Section heading rows */
+.head-row { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; justify-content: space-between; margin-bottom: 40px; }
+@media (min-width: 800px) { .head-row { flex-direction: row; align-items: flex-end; gap: 24px; } }
+.head-row p { color: var(--text-muted); max-width: 420px; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#home" class="brand" data-route="home">
+      <img src="logo.jpeg" alt="Leela Vigil Solutions">
+      <div>
+        <div class="brand-name">Leela Vigil <span class="text-green">Solutions</span></div>
+        <div class="brand-tag">Secure · Vigilant · Trusted</div>
+      </div>
+    </a>
+    <nav class="nav">
+      <a href="#home" data-route="home">Home</a>
+      <a href="#services" data-route="home">Services</a>
+      <a href="#about" data-route="home">About</a>
+      <a href="#contact" data-route="home">Contact</a>
+    </nav>
+    <a href="#quote" data-route="home" class="btn btn-primary" style="display:none" id="header-cta">Get Quote &nbsp;→</a>
+  </div>
+</header>
+
+<!-- HOME PAGE -->
+<main id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section id="home" class="hero bg-radial-hero">
+    <div class="bg-scanlines scanlines"></div>
+    <div class="blob1"></div><div class="blob2"></div>
+
+    <div class="hero-grid">
+      <div class="fade-up">
+        <span class="pill"><span class="dot"></span>Mysuru · Trusted since 2019</span>
+        <h1 class="display" style="margin-top:24px">Smart security for a <span class="text-green">safer</span><br>tomorrow.</h1>
+        <p class="hero-sub">We design, install and maintain CCTV surveillance, biometric access, fire-safety, networking and intrusion-detection systems — engineered for banks, businesses, factories and homes across Karnataka.</p>
+        <div class="hero-cta">
+          <a href="#quote" class="btn btn-primary">Get free quote &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          <a href="#services" class="btn btn-ghost">Explore services</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-num">6+</div><div class="stat-label">Years of expertise</div></div>
+          <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Sites secured</div></div>
+          <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Monitoring support</div></div>
+          <div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">Uptime SLA</div></div>
+        </div>
+      </div>
+      <div class="fade-up" style="animation-delay:.2s">
+        <div class="cam-frame">
+          <img src="hero-bg.png" alt="Security operations">
+          <div class="cam-grad"></div>
+          <div class="scan-line"></div>
+          <div class="cam-hud-top">
+            <span><span class="rec-dot"></span>REC · CAM-04</span>
+            <span id="cam-date"></span>
+          </div>
+          <div class="cam-hud-bot">
+            <span>Mysuru · KA</span>
+            <span>1080p · 30fps</span>
+          </div>
+          <span class="bracket tl"></span><span class="bracket tr"></span>
+          <span class="bracket bl"></span><span class="bracket br"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <section class="marquee">
+    <div class="marquee-track" id="marquee"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="container about-grid">
+      <div>
+        <div class="label">// About us</div>
+        <h2 class="display" style="margin-top:12px">Six years of <span class="text-green">protecting</span> what matters most.</h2>
+        <p style="color:var(--text-muted); line-height:1.7; margin-top:20px">Leela Vigil Solutions is a trusted security solutions provider with 6+ years of industry experience, delivering advanced and reliable protection systems for residential, commercial, banking and industrial clients.</p>
+        <p style="color:var(--text-muted); line-height:1.7; margin-top:16px">Our mission is to create a safer, smarter environment through innovative technology, high-quality products and expert installation. From CCTV and biometric access to LAN networking, motion sensors and fire-safety systems — we ensure seamless integration and dependable performance.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feat-card"><i class="fa-solid fa-shield-halved"></i><h4>End-to-End Solutions</h4><p>Survey, design, supply, install, configure & maintain — single accountable team.</p></div>
+        <div class="feat-card"><i class="fa-solid fa-award"></i><h4>Certified Engineers</h4><p>OEM-trained technicians for Hikvision, CP Plus, Dahua, Cisco and more.</p></div>
+        <div class="feat-card"><i class="fa-solid fa-building"></i><h4>All Sectors Covered</h4><p>Banks, retail, factories, schools, hospitals, homes — proven references.</p></div>
+        <div class="feat-card"><i class="fa-solid fa-screwdriver-wrench"></i><h4>AMC & Support</h4><p>Annual maintenance with on-site SLA. We don't disappear after install.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="section" style="border-top:1px solid rgba(255,255,255,.05)">
+    <div class="container">
+      <div class="head-row">
+        <div>
+          <div class="label">// What we do</div>
+          <h2 class="display" style="margin-top:12px">Engineered <span class="text-green">security systems</span><br>for every site.</h2>
+        </div>
+        <p>Tap any service to see specs, supported brands, real use cases and request a tailored quote.</p>
+      </div>
+      <div class="svc-grid" id="svc-grid"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section" style="border-top:1px solid rgba(255,255,255,.05)">
+    <div class="container contact-grid">
+      <div>
+        <div class="label">// Contact</div>
+        <h2 class="display" style="margin-top:12px">Talk to a security <span class="text-green">expert</span> today.</h2>
+        <p style="color:var(--text-muted); line-height:1.7; margin:20px 0 28px; max-width:420px">Free site survey across Mysuru and surrounding districts. We respond within business hours, usually within minutes.</p>
+
+        <div class="contact-card"><div class="ico"><i class="fa-solid fa-envelope"></i></div><div class="body"><div class="mini-label">Email</div><a href="mailto:contact@leelavigils.com">contact@leelavigils.com</a><br><a href="mailto:leelavigils@gmail.com">leelavigils@gmail.com</a></div></div>
+        <div class="contact-card"><div class="ico"><i class="fa-solid fa-phone"></i></div><div class="body"><div class="mini-label">Call us</div><strong>Bharath Kumar CM</strong><br><a href="tel:+919743626883">+91 97436 26883</a> · <a href="tel:+916362554499">+91 63625 54499</a><br><strong style="display:inline-block;margin-top:6px">Arjun J</strong><br><a href="tel:+919980091299">+91 99800 91299</a></div></div>
+        <div class="contact-card"><div class="ico"><i class="fa-solid fa-location-dot"></i></div><div class="body"><div class="mini-label">Office</div>22 Chikkaharadanahalli, Jayanagar, Mysuru, Karnataka — 570034</div></div>
+        <div class="contact-card"><div class="ico"><i class="fa-solid fa-clock"></i></div><div class="body"><div class="mini-label">Office Hours</div><strong>Monday – Saturday</strong> · 9:30 AM – 6:30 PM<br><span style="color:#64748b">Sunday — Closed</span></div></div>
+      </div>
+
+      <div id="quote">
+        <div class="label">// Get free quote</div>
+        <h3 class="display" style="margin-top:12px;margin-bottom:24px;font-size:30px">Tell us what you're protecting.</h3>
+        <form class="form-card" onsubmit="return submitQuote(event)" id="quote-form">
+          <div class="scan-line"></div>
+          <div class="form-row">
+            <div class="field"><label>Full Name</label><input name="name" required placeholder="John Doe"></div>
+            <div class="field"><label>Email</label><input name="email" type="email" required placeholder="you@email.com"></div>
+            <div class="field"><label>Mobile Number</label><input name="mobile" required placeholder="+91 9XXXXXXXXX"></div>
+            <div class="field"><label>Service Interested</label>
+              <select name="service" id="form-service">
+                <option value="">— Select a service —</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row full" style="margin-top:14px">
+            <div class="field"><label>Tell us about your requirement</label><textarea name="message" rows="6" required placeholder="Site type, number of cameras / sensors, location, timeline…"></textarea></div>
+          </div>
+          <div class="form-actions">
+            <p class="form-help">On submit we'll open both <b>WhatsApp</b> (to +91 63625 54499) and your <b>email app</b> with a pre-filled message to our team.</p>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- SERVICE DETAIL PAGES (rendered dynamically) -->
+<main id="page-detail" class="page"></main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <a href="#home" data-route="home" class="brand">
+        <img src="logo.jpeg" alt="LVS" style="width:48px;height:48px">
+        <div>
+          <div class="brand-name" style="font-size:18px">Leela Vigil <span class="text-green">Solutions</span></div>
+          <div class="brand-tag">Mysuru · Karnataka</div>
+        </div>
+      </a>
+      <p style="color:var(--text-muted);font-size:14px;line-height:1.6;margin-top:20px;max-width:380px">6+ years of trusted security & networking solutions for residential, commercial, banking and industrial clients across Karnataka.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul id="footer-services"></ul>
+    </div>
+    <div class="footer-col">
+      <h5>Reach Us</h5>
+      <ul style="font-size:14px;color:#cbd5e1;line-height:1.7">
+        <li><i class="fa-solid fa-envelope text-green" style="margin-right:8px"></i><a href="mailto:contact@leelavigils.com">contact@leelavigils.com</a> · <a href="mailto:leelavigils@gmail.com">leelavigils@gmail.com</a></li>
+        <li><i class="fa-solid fa-phone text-green" style="margin-right:8px"></i>+91 97436 26883 · +91 63625 54499 · +91 99800 91299</li>
+        <li><i class="fa-solid fa-location-dot text-green" style="margin-right:8px"></i>22 Chikkaharadanahalli, Jayanagar, Mysuru — 570034</li>
+        <li><i class="fa-solid fa-clock text-green" style="margin-right:8px"></i>Mon – Sat · 9:30 AM – 6:30 PM · <span style="color:#64748b">Sunday Closed</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bot">
+    © 2026 Leela Vigil Solutions. Secure Today. Protect Forever. &nbsp;·&nbsp; <span class="online"><span class="text-green">●</span> System Online</span>
+  </div>
+</footer>
+
+<!-- WhatsApp float -->
+<a href="https://wa.me/916362554499?text=Hello%20Leela%20Vigil%20Solutions%2C%20I%27d%20like%20to%20know%20more%20about%20your%20security%20services." target="_blank" rel="noreferrer" class="whatsapp" aria-label="Chat on WhatsApp">
+  <i class="fa-brands fa-whatsapp" style="position:relative;z-index:1"></i>
+</a>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* === Service catalogue === */
+const SERVICES = [
+  {slug:"cctv-surveillance", code:"01", title:"CCTV Surveillance", icon:"fa-video",
+   short:"HD+ 24/7 monitoring with night vision, remote viewing and intelligent recording.",
+   image:"service-cctv.png",
+   tagline:"See everything. Miss nothing.",
+   overview:"End-to-end CCTV surveillance for homes, shops, banks, factories and warehouses. We engineer multi-camera setups with crystal-clear day & night vision, intelligent motion-triggered recording and secure remote viewing on your phone.",
+   features:["2MP / 4MP / 5MP / 8MP IP & HD analog cameras (Hikvision, CP Plus, Dahua)","Color night vision and IR cameras up to 50 m range","NVR / DVR with 1–32 channels, motion-only recording","Live remote viewing via mobile app on Android & iOS","Cloud + local hard-disk redundant storage (1TB–10TB)","PoE powered cameras — single cable for power + data","AI features: line crossing, intrusion zones, face capture","Tamper alerts and email/WhatsApp push notifications"],
+   useCases:["Bank ATMs & branches","Retail showrooms & jewellery stores","Apartments, villas & gated communities","Factories, godowns, petrol pumps","Schools, clinics & offices"]},
+  {slug:"lan-networking", code:"02", title:"LAN Networking", icon:"fa-network-wired",
+   short:"Structured cabling and high-speed wired networks built for uptime.",
+   image:"service-lan.png",
+   tagline:"Wired for speed. Built to last.",
+   overview:"Professional LAN design, structured cabling and rack assembly for offices, banks and industrial sites. We deliver clean cable runs, proper labelling and tested links so your network never becomes the bottleneck.",
+   features:["Cat6 / Cat6a / Cat7 structured cabling with certification","24/48 port managed & unmanaged switches (Cisco, D-Link, TP-Link)","Server rack assembly, patch panels & cable dressing","Fiber optic backbone laying, splicing & termination","VLAN segmentation, QoS and bandwidth management","Wi-Fi access point planning & heat-map deployment","Internet failover & dual-WAN router setup","Annual maintenance contract (AMC) with on-site SLA"],
+   useCases:["Bank branches & corporate offices","Hotels & hospitals","Schools & coaching institutes","Manufacturing units"]},
+  {slug:"biometric-access", code:"03", title:"Biometric Access Control", icon:"fa-fingerprint",
+   short:"Fingerprint, face & RFID access systems with attendance & audit trails.",
+   image:"service-biometric.png",
+   tagline:"Only the right people. Every time.",
+   overview:"Stop key duplication and unauthorised entry. Our biometric access control systems combine fingerprint, face recognition and RFID cards with electromagnetic locks and exit buttons — backed by automatic attendance reports.",
+   features:["Fingerprint, face recognition & palm-vein readers","RFID / Mifare card and PIN-code support","Electromagnetic locks (180kg / 280kg) and strike locks","Door sensors, exit push buttons and break-glass overrides","Automatic attendance & payroll-ready reports","Cloud + offline mode with battery backup","Multi-door & multi-location centralised management","Time-zone & access-level restrictions per user"],
+   useCases:["Corporate offices & co-working","Server rooms & data centres","Hospitals, labs & pharma","Educational institutes"]},
+  {slug:"fire-smoke-systems", code:"04", title:"Fire & Smoke Intrusion Systems", icon:"fa-fire-flame-curved",
+   short:"Early-warning fire detection with addressable panels and instant alerts.",
+   image:"service-fire.png",
+   tagline:"Detect it early. Act in seconds.",
+   overview:"Conventional and addressable fire-alarm systems engineered to local fire-safety codes. Photoelectric smoke detectors, heat detectors and gas sensors raise the alert long before the fire spreads — with hooter, strobe and SMS notifications.",
+   features:["Conventional & addressable fire-alarm panels (2–32 zones)","Photoelectric smoke detectors and heat (rate-of-rise) detectors","Manual call points (MCP) and hooter-cum-strobe units","LPG / natural-gas leak detectors with auto shut-off valve","Integration with CCTV — auto record on alarm","SMS / Email / WhatsApp alerts to multiple contacts","Battery backup (24-hour standby) with charger","Annual testing, certification & AMC support"],
+   useCases:["Banks, ATMs & lockers","Showrooms, malls & restaurants","Warehouses & cold storage","Schools & residential complexes"]},
+  {slug:"door-sensors", code:"05", title:"Door Sensors", icon:"fa-door-closed",
+   short:"Magnetic & wireless door contacts that flag every unauthorised entry.",
+   image:"service-door.png",
+   tagline:"Every door, every entry — logged.",
+   overview:"Magnetic reed switches and wireless contact sensors that detect the moment a door, window or cupboard opens. Integrated with the alarm panel and your phone for instant push alerts and CCTV video pop-up.",
+   features:["Wired magnetic reed contacts for doors & windows","Wireless 433 MHz battery sensors with 2-year battery life","Tamper-proof housings with anti-removal alarms","Day / night / armed-away modes with delay timers","Push notifications and siren trigger on breach","Integration with CCTV NVR — auto bookmark recordings","Compatible with our biometric & alarm panels"],
+   useCases:["Bank vaults, strong rooms & cash counters","Server racks & medicine cabinets","Home main door, balcony & windows","Retail back-doors & store-rooms"]},
+  {slug:"shutter-sensors", code:"06", title:"Shutter Sensors", icon:"fa-layer-group",
+   short:"Heavy-duty roller-shutter monitoring for shops, godowns and showrooms.",
+   image:"service-shutter.png",
+   tagline:"If the shutter moves, you'll know.",
+   overview:"Industrial-grade roller-shutter sensors that detect even a few centimetres of movement when the shop is closed. Wired into the GSM alarm panel — gets you a call, SMS and WhatsApp the moment something is wrong.",
+   features:["Industrial reed-switch shutter sensors with steel armour","Vibration / tilt sensors for forced-entry detection","GSM auto-dialer panel with 6 emergency numbers","Loud 110 dB external siren with strobe","Backup battery (8–12 hour standby)","Mobile app arming/disarming with PIN","Optional CCTV camera trigger on shutter event"],
+   useCases:["Retail shops & jewellery stores","Godowns, warehouses & cold storage","Showrooms with rolling shutters","Petrol bunks & service stations"]},
+  {slug:"motion-sensors", code:"07", title:"Motion Sensors", icon:"fa-satellite-dish",
+   short:"Smart PIR & dual-tech sensors that catch movement, ignore pets.",
+   image:"service-motion.png",
+   tagline:"Detect intruders, not pets.",
+   overview:"PIR (passive infrared) and dual-technology motion detectors that pick up human movement inside protected zones — wired into your alarm system, smart bulbs and CCTV. Pet-immune variants ignore animals up to 25 kg.",
+   features:["Indoor & outdoor PIR sensors with 12–18 m range","Dual-tech (PIR + microwave) for false-alarm rejection","Pet-immune mode (up to 25 kg)","Wide-angle ceiling-mount 360° detectors","Wireless models with battery + tamper alerts","Auto trigger of CCTV recording, lights & siren","Integration with smart-home & voice assistants"],
+   useCases:["Bank ATMs after-hours zones","Office cabins & store rooms","Garages, garden perimeters & terraces","Hotel corridors & schools"]},
+];
+
+/* === Render service grid === */
+const svcGrid = document.getElementById('svc-grid');
+SERVICES.forEach(s => {
+  const a = document.createElement('a');
+  a.href = '#service/' + s.slug;
+  a.className = 'svc-card';
+  a.innerHTML = `
+    <div class="svc-img-wrap">
+      <img src="${s.image}" alt="${s.title}" loading="lazy">
+      <div class="svc-grad"></div>
+      <span class="svc-code">/ ${s.code}</span>
+      <span class="svc-icon"><i class="fa-solid ${s.icon}"></i></span>
+    </div>
+    <div class="svc-body">
+      <h3>${s.title}</h3>
+      <p>${s.short}</p>
+      <div class="svc-more">Learn more →</div>
+    </div>`;
+  svcGrid.appendChild(a);
+});
+
+/* === Footer service links === */
+const footerSvc = document.getElementById('footer-services');
+SERVICES.forEach(s => {
+  const li = document.createElement('li');
+  li.innerHTML = `<a href="#service/${s.slug}">${s.title}</a>`;
+  footerSvc.appendChild(li);
+});
+
+/* === Form service select === */
+const formSvc = document.getElementById('form-service');
+SERVICES.forEach(s => {
+  const o = document.createElement('option');
+  o.value = s.title; o.textContent = s.title;
+  formSvc.appendChild(o);
+});
+const otherOpt = document.createElement('option'); otherOpt.value = 'Other / Custom'; otherOpt.textContent = 'Other / Custom';
+formSvc.appendChild(otherOpt);
+
+/* === Marquee === */
+const CLIENTS = ["Banking & ATMs","Retail & Showrooms","Industrial & Warehouses","Residential & Villas","Hospitals & Clinics","Schools & Institutes","Hotels & Restaurants","Government Offices"];
+const m = document.getElementById('marquee');
+const all = [...CLIENTS, ...CLIENTS].map(c => `<span><i></i>${c}</span>`).join('');
+m.innerHTML = all;
+
+/* === Cam date === */
+document.getElementById('cam-date').textContent = new Date().toLocaleDateString();
+
+/* === Routing === */
+const pageHome = document.getElementById('page-home');
+const pageDetail = document.getElementById('page-detail');
+const headerCta = document.getElementById('header-cta');
+
+function showHome(){
+  pageHome.classList.add('active');
+  pageDetail.classList.remove('active');
+  pageDetail.innerHTML = '';
+  headerCta.style.display = '';
+}
+function showService(slug){
+  const s = SERVICES.find(x => x.slug === slug);
+  if (!s) { location.hash = '#home'; return; }
+  pageHome.classList.remove('active');
+  pageDetail.classList.add('active');
+  headerCta.style.display = 'none';
+  const others = SERVICES.filter(x => x.slug !== slug).slice(0,3);
+  pageDetail.innerHTML = `
+    <section class="detail-hero">
+      <div class="container">
+        <a href="#home" class="btn-back"><i class="fa-solid fa-arrow-left"></i> &nbsp;Back to home</a>
+      </div>
+      <div class="container detail-grid" style="margin-top:24px">
+        <div class="fade-up">
+          <div class="label">Service / ${s.code}</div>
+          <h1 class="display" style="margin-top:12px">${s.title}</h1>
+          <div class="text-mono text-green" style="font-size:14px; letter-spacing:.2em; text-transform:uppercase; margin-top:14px">${s.tagline}</div>
+          <p style="color:var(--text-muted); font-size:17px; line-height:1.7; margin-top:22px; max-width:560px">${s.overview}</p>
+          <div class="hero-cta">
+            <a href="#service-quote" class="btn btn-primary">Request quote &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <a href="https://wa.me/916362554499" target="_blank" class="btn btn-ghost"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</a>
+          </div>
+        </div>
+        <div class="fade-up" style="animation-delay:.15s">
+          <div class="cam-frame">
+            <img src="${s.image}" alt="${s.title}">
+            <div class="cam-grad"></div>
+            <div class="scan-line"></div>
+            <span class="bracket tl"></span><span class="bracket tr"></span>
+            <span class="bracket bl"></span><span class="bracket br"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="container detail-cards">
+        <div class="detail-box">
+          <h2 class="display" style="font-size:26px"><i class="fa-solid fa-sparkles text-green" style="margin-right:8px"></i>What you get</h2>
+          <ul class="feature-list">
+            ${s.features.map(f => `<li><i class="fa-solid fa-check-circle"></i><span>${f}</span></li>`).join('')}
+          </ul>
+        </div>
+        <div class="detail-box">
+          <h2 class="display" style="font-size:26px"><i class="fa-solid fa-building text-cyan" style="margin-right:8px"></i>Where we deploy</h2>
+          <ul class="usecase-list">
+            ${s.useCases.map(u => `<li><span class="pip"></span>${u}</li>`).join('')}
+          </ul>
+          <div class="text-mono" style="font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:#64748b; margin-top:20px">Office hours · Mon – Sat · 9:30 AM – 6:30 PM</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section" id="service-quote">
+      <div class="container" style="max-width:960px">
+        <div class="label">// Get free quote</div>
+        <h2 class="display" style="margin:12px 0 24px;font-size:36px">Plan your <span class="text-green">${s.title}</span> install</h2>
+        <form class="form-card" onsubmit="return submitQuote(event, '${s.title.replace(/'/g, "\\'")}')">
+          <div class="scan-line"></div>
+          <div class="form-row">
+            <div class="field"><label>Full Name</label><input name="name" required placeholder="John Doe"></div>
+            <div class="field"><label>Email</label><input name="email" type="email" required placeholder="you@email.com"></div>
+            <div class="field"><label>Mobile Number</label><input name="mobile" required placeholder="+91 9XXXXXXXXX"></div>
+            <div class="field"><label>Service</label><input name="service" value="${s.title}" readonly style="opacity:.7"></div>
+          </div>
+          <div class="form-row full" style="margin-top:14px">
+            <div class="field"><label>Tell us about your requirement</label><textarea name="message" rows="6" required placeholder="Site type, number of cameras / sensors, location, timeline…"></textarea></div>
+          </div>
+          <div class="form-actions">
+            <p class="form-help">Opens both <b>WhatsApp</b> (+91 63625 54499) and your <b>email app</b> with a pre-filled message.</p>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="container">
+        <div class="head-row">
+          <div>
+            <div class="label">// Explore</div>
+            <h2 class="display" style="margin-top:12px;font-size:30px">Other services</h2>
+          </div>
+          <a href="#services" class="text-mono" style="font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:var(--text-muted)">View all →</a>
+        </div>
+        <div class="svc-grid">
+          ${others.map(o => `
+            <a href="#service/${o.slug}" class="svc-card">
+              <div class="svc-img-wrap">
+                <img src="${o.image}" alt="${o.title}" loading="lazy">
+                <div class="svc-grad"></div>
+              </div>
+              <div class="svc-body">
+                <div class="text-mono" style="font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--neon-cyan)">/ ${o.code}</div>
+                <h3 style="margin-top:6px">${o.title}</h3>
+              </div>
+            </a>`).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function handleHash(){
+  const h = location.hash || '#home';
+  const m = h.match(/^#service\/([\w-]+)/);
+  if (m) showService(m[1]);
+  else {
+    showHome();
+    // smooth scroll to section if hash matches a section id
+    const id = h.replace('#','');
+    if (id && id !== 'home') {
+      const el = document.getElementById(id);
+      if (el) setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 60);
+    } else {
+      window.scrollTo({top:0, behavior:'instant'});
+    }
+  }
+}
+window.addEventListener('hashchange', handleHash);
+handleHash();
+
+/* === Header CTA visibility === */
+headerCta.style.display = 'inline-flex';
+headerCta.classList.add('btn','btn-primary');
+
+/* === Form submission: open WhatsApp + mailto === */
+function submitQuote(e, forcedService){
+  e.preventDefault();
+  const f = e.target;
+  const data = {
+    name: f.name.value.trim(),
+    email: f.email.value.trim(),
+    mobile: f.mobile.value.trim(),
+    service: forcedService || (f.service ? f.service.value : ''),
+    message: f.message.value.trim()
+  };
+  if (!data.name || !data.email || !data.mobile || !data.message) {
+    showToast('Please fill all required fields'); return false;
+  }
+  const lines = [
+    'Hello Leela Vigil Solutions,', '',
+    'Name: ' + data.name,
+    'Email: ' + data.email,
+    'Mobile: ' + data.mobile,
+    (data.service ? 'Service: ' + data.service : ''),
+    '', 'Message:', data.message
+  ].filter(Boolean).join('\n');
+
+  // WhatsApp
+  const wa = 'https://wa.me/916362554499?text=' + encodeURIComponent(lines);
+  window.open(wa, '_blank');
+
+  // Email — opens user's default mail client to BOTH addresses
+  const subject = 'New Quote Request from ' + data.name;
+  const body = lines;
+  const mailto = 'mailto:contact@leelavigils.com,leelavigils@gmail.com'
+    + '?subject=' + encodeURIComponent(subject)
+    + '&body=' + encodeURIComponent(body);
+  // Open mailto in same tab after slight delay so WhatsApp pop-up fires first
+  setTimeout(() => { window.location.href = mailto; }, 300);
+
+  showToast('Opening WhatsApp & email…');
+  f.reset();
+  return false;
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* === Smooth scroll for in-page anchors when clicking nav === */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(ev){
+    const href = this.getAttribute('href');
+    if (href.startsWith('#service/')) return; // routed
+    if (href === '#home' || href === '#services' || href === '#about' || href === '#contact' || href === '#quote') {
+      // If currently on detail page, route home first via hash, then scroll
+      if (pageDetail.classList.contains('active')) {
+        ev.preventDefault();
+        location.hash = '#home';
+        const target = href.replace('#','');
+        setTimeout(() => {
+          if (target === 'home') window.scrollTo({top:0, behavior:'smooth'});
+          else { const el = document.getElementById(target); if (el) el.scrollIntoView({behavior:'smooth'}); }
+        }, 80);
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
